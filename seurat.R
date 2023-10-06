@@ -27,10 +27,9 @@ print(pat)
 ##### Loading, merging, QC, dimension reduction #####
 ### Load dataset
 pat <- "/RU1065C_MET_LI/RU1065C_MET_LI_filtered.h5"
-system(paste0("aws s3 sync s3://sclc-seq/cellbender/v0.2.0_CellRanger6.1.1/", pat,"/ data/",pat,"/ ","--exclude '*' --include '",pat,"_filtered.h5' --quiet"))
+system(paste0("aws s3 sync s3://sclc-seq/cellbender/v0.2.0_CellRanger6.1.1/", pat,"/ data/",pat,"/ ","--exclude '*' --include '",pat,"_filtered.h5' "))
 seu.data <- Read10X_h5(paste0("data/",pat,"/",pat,'_filtered.h5'), 
                        use.names = TRUE, unique.features = TRUE)
-
 ### Initialize the Seurat object with the raw (non-normalized data)
 seu_raw <- CreateSeuratObject(counts = seu.data, project = pat, 
                               min.cells = 1, min.features = 1)
