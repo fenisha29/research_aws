@@ -263,6 +263,6 @@ DimPlot(seu, reduction = "umap",label = T,group.by = 'celltype_hpca_main',repel 
 
 dev.off()
 
-system(paste0("aws s3 sync data/",pat,"/ s3://melanoma-ribas/Seurat/",pat,"/ --exclude '*' --include '*_cb*' --exclude '.*' --quiet"))
+system(paste0("aws s3 sync data/",pat,"/ s3://joe's/Seurat/",pat,"/ --exclude '*' --include '*_cb*' --exclude '.*' --quiet"))
 
 print(paste('End:',Sys.time()))
