@@ -60,6 +60,7 @@ if(grepl('sclc',pat)){
 
 # Identify doublets using scrublet
 doublet_rate_tmp<-doublet_rate[doublet_rate$sample==pat,2]
+doublet_rate_tmp<- 0.0644
 writeMM(seu_raw@assays$RNA@counts, paste0('data/',pat,'/matrix_',pat,'_raw.mtx'))
 system(paste('python3 brain_mets/scrublet/scrublet_code.py', pat, doublet_rate_tmp))
 doublets <- read.table(paste0('data/',pat,'/doublets_',pat,'_raw.txt'),header = T)
