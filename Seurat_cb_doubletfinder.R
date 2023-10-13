@@ -22,7 +22,8 @@ library(Matrix)
 library(DoubletFinder)
 
 pat <- commandArgs()[6]
-doublet_rate <-read.csv('data/sclc_doublet_rate.csv')
+
+doublet_rate <- 0.0644
 print(pat)
 
 ##### Loading, merging, QC, dimension reduction #####
@@ -45,7 +46,13 @@ if(grepl('sclc',pat)){
   seu_raw[["ID"]]<-strsplit(pat,'_')[[1]][2]
   seu_raw[["sequencing"]]<-strsplit(pat,'_')[[1]][3]
   seu_raw[["cancer"]]<-'SCLC'
-}else{
+}else if(grepl('RU',pat)){
+  seu_raw[["ID"]]<-strsplit(pat,'_')[[1]][1]
+  seu_raw[["sequencing"]]<-'scRNA-seq'
+  seu_raw[["cancer"]]<-'SCLC'
+  seu_raw[["tissue"]]<-strsplit(pat,'_')[[1]][3]
+  seu_raw[["primary"]]<-strsplit(pat,'_')[[1]][2]
+  }else{
   seu_raw[["ID"]]<-strsplit(pat,'_')[[1]][1]
   seu_raw[["sequencing"]]<-strsplit(pat,'_')[[1]][2]
   seu_raw[["cancer"]]<-'Control'
