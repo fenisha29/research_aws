@@ -21,8 +21,8 @@ library(pheatmap)
 library(Matrix)
 library(DoubletFinder)
 
-pat <- commandArgs()[6]
-
+#pat <- commandArgs()[6]
+pat <- "RU1065C_MET_LI"
 doublet_rate <- 0.0644
 print(pat)
 
