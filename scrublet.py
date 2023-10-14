@@ -16,7 +16,8 @@ import scrublet as scr
 import scipy.io
 import sys
 
-patient=sys.argv[1]
+#patient=sys.argv[1]
+patient = "RU1065C_MET_LI"
 doublet_rate=float(sys.argv[2])
 
 print('Patient:', patient, 'Doublet_rate:', doublet_rate)
