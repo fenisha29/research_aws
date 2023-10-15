@@ -63,13 +63,13 @@ if(grepl('sclc',pat)){
 doublet_rate_tmp<- 0.0644
 writeMM(seu_raw@assays$RNA@counts, paste0('data/',pat,'/matrix_',pat,'_raw.mtx'))
 system(paste('python3 scrublet_code.py', pat, doublet_rate_tmp))
-doublets <- read.table(paste0('data/',pat,'/matrix_RU1065C_MET_LI_raw.mtx'),header = T)
+doublets <- read.table(paste0('data/',pat,'/doublets_',pat,'_raw.txt'),header = T)
+#doublets <- read.table(paste0('data/',pat,'/matrix_RU1065C_MET_LI_raw.mtx'),header = T)
 #doublets <- read.table(paste0('_raw.txt'),header = T)
 seu_raw[['predicted_doublets']]<-doublets$predicted_doublets
 seu_raw[['doublet_scores']]<-doublets$doublet_scores
 system(paste0('rm data/',pat,'/matrix_',pat,'_raw.mtx'))
 system(paste0('rm data/',pat,'/doublets_',pat,'_raw.txt'))
-
 
 seu_raw <- NormalizeData(seu_raw)
 seu_raw <- FindVariableFeatures(seu_raw)
