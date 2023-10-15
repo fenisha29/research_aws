@@ -20,6 +20,7 @@ patients<-c('C51ctr_3p', 'C52ctr_3p', 'C53ctr_3p', 'C54ctr_3p', 'C55ctr_3p', 'C5
             'sclc_pa124_3p', 'sclc_pa124_5pv2', 'sclc_pa146_3p', 'sclc_pa150_3p', 'sclc_pa151_3p', 'sclc_pa168_3p')
 
 
+
 ifelse(!dir.exists(file.path("data/SCLC_Ctr")), dir.create(file.path("data/SCLC_Ctr")), FALSE)
 pdf(file = paste0("data/SCLC_Ctr/plots_SCLC_Ctr_QC.pdf"),width = 15,height = 10)
 for(pat in patients){
