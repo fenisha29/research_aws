@@ -14,12 +14,12 @@ library(cowplot)
 library(scater)
 library(patchwork)
 
-patients<-c('C51ctr_3p', 'C52ctr_3p', 'C53ctr_3p', 'C54ctr_3p', 'C55ctr_3p', 'C56ctr_3p', 'C57ctr_3p',
-            'sclc_n3525_3p', 'sclc_n3626_3p', 'sclc_n3628_3p', 'sclc_n3657_3p', 'sclc_ns005_3p', 'sclc_ns007_3p',
-            'sclc_pa013_5pv2', 'sclc_pa031_5pv2', 'sclc_pa096_3p', 'sclc_pa098_3p', 'sclc_pa121_5pv2', 
-            'sclc_pa124_3p', 'sclc_pa124_5pv2', 'sclc_pa146_3p', 'sclc_pa150_3p', 'sclc_pa151_3p', 'sclc_pa168_3p')
+#patients<-c('C51ctr_3p', 'C52ctr_3p', 'C53ctr_3p', 'C54ctr_3p', 'C55ctr_3p', 'C56ctr_3p', 'C57ctr_3p',
+#            'sclc_n3525_3p', 'sclc_n3626_3p', 'sclc_n3628_3p', 'sclc_n3657_3p', 'sclc_ns005_3p', 'sclc_ns007_3p',
+#            'sclc_pa013_5pv2', 'sclc_pa031_5pv2', 'sclc_pa096_3p', 'sclc_pa098_3p', 'sclc_pa121_5pv2', 
+#            'sclc_pa124_3p', 'sclc_pa124_5pv2', 'sclc_pa146_3p', 'sclc_pa150_3p', 'sclc_pa151_3p', 'sclc_pa168_3p')
 
-
+patients <- "RU1065C_MET_LI"
 
 ifelse(!dir.exists(file.path("data/SCLC_Ctr")), dir.create(file.path("data/SCLC_Ctr")), FALSE)
 pdf(file = paste0("data/SCLC_Ctr/plots_SCLC_Ctr_QC.pdf"),width = 15,height = 10)
