@@ -1,5 +1,5 @@
 # File: integrate_samples.R
-
+install.packages("Seurat")
 # Load required libraries
 library(Seurat)
 
