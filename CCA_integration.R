@@ -44,4 +44,4 @@ seurat_integrated <- FindNeighbors(seurat_integrated)
 seurat_integrated <- FindClusters(seurat_integrated)
 
 # Save the integrated Seurat object
-saveRDS(seurat_integrated, "path/to/integrated_seurat_object.rds")
+saveRDS(seurat_integrated, "vol/integrated_seurat_object.rds")
