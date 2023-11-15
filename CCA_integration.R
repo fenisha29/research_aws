@@ -5,7 +5,7 @@ library(Seurat)
 
 # List of file paths for the 22 Seurat objects
 seurat_files <- c(
-  "../vol/RU1065C_MET_LI/data_RU1065C_MET_LI_cb_DF.rds",
+  "/vol/RU1065C_MET_LI/data_RU1065C_MET_LI_cb_DF.rds",
   "../vol/RU1144_MET_LN/data_RU1144_MET_LN_cb_DF.rds",
   "../vol/RU1065C_PRI_LU/data_RU1181_PRI_LU_cb_DF.rds",
   "../vol/RU1293A_MET_LN/data_RU1293A_MET_LN_cb_DF.rds",
