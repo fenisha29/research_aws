@@ -1,3 +1,4 @@
+library(Seurat)
 file_path_1 <- "vol/integrated_seurat_object.rds"
 integrated_data <- readRDS(file_path_1)
 head(integrated_data)
