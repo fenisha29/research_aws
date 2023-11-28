@@ -52,5 +52,9 @@ integrated_data <- RunUMAP(integrated_data, dims = 1:30)
 
 # Plot the UMAP
 pdf("UMAP_after_Harmony.pdf")
-DimPlot(integrated_data, group.by = 'patient', label = TRUE)
+DimPlot(integrated_data, label = TRUE, group.by = "celltype_bped_main", raster = TRUE, shuffle = TRUE)
+
+# Use DimPlot with group.by set to 'sample'
+DimPlot(integrated_data, label = TRUE, group.by = "sample", raster = TRUE, shuffle = TRUE)
+
 dev.off()
