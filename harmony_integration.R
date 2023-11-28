@@ -30,23 +30,27 @@ seurat_objects <- lapply(seurat_files, function(file_path) {
   readRDS(file_path)
 })
 
-# Perform integration using Harmony
-integrated_data <- HarmonySeurat(
-  seurat_objects,
-  group.by.vars = c("sample"), # You might need to adjust this based on your metadata
-  max.iter.harmony = 20
-)
+# Set the default assay to 'RNA'
+seurat_objects <- lapply(seurat_objects, function(seu) {
+  DefaultAssay(seu) <- 'RNA'
+  return(seu)
+})
 
-# Run PCA on the integrated data (optional)
-integrated_data <- RunPCA(integrated_data, npcs = 30, verbose = FALSE)
+# Run NormalizeData, FindVariableFeatures, and ScaleData on each Seurat object
+seurat_objects <- lapply(seurat_objects, function(seu) {
+  seu <- NormalizeData(seu) %>%
+    FindVariableFeatures() %>%
+    ScaleData() %>%
+    RunPCA(npcs = 50)
+  return(seu)
+})
 
-# Run UMAP on the integrated data (optional)
+integrated_data <- RunHarmony(object = seu, group.by.vars = 'patient', dims.use = 1:30,
+                  assay.use = 'RNA', plot_convergence = TRUE)
+
 integrated_data <- RunUMAP(integrated_data, dims = 1:30)
 
-# Visualize integrated data with DimPlot (optional)
-pdf("Integrated_harmony_DimPlot.pdf")
-DimPlot(integrated_data, group.by = "sample", label = TRUE)
+# Plot the UMAP
+pdf("UMAP_after_Harmony.pdf")
+DimPlot(integrated_data, group.by = 'patient', label = TRUE)
 dev.off()
-
-# Save the integrated Seurat object
-saveRDS(integrated_data, "harmony_integrated_seurat_object.rds")
