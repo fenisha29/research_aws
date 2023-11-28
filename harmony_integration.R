@@ -45,8 +45,21 @@ seurat_objects <- lapply(seurat_objects, function(seu) {
   return(seu)
 })
 
-integrated_data <- RunHarmony(object = seurat_objects, group.by.vars = 'sample', dims.use = 1:30,
-                  assay.use = 'RNA', plot_convergence = TRUE)
+pca_list <- lapply(seurat_objects, function(seu) {
+  return(seu[["pca"]])
+})
+
+# Combine the PCA results into a single matrix
+combined_pca <- do.call(cbind, pca_list)
+
+# Run Harmony on the combined PCA matrix
+integrated_data <- RunHarmony(data = combined_pca, meta_data = seurat_objects, vars.use = 'patient', max.iter.harmony = 20)
+
+# Add the Harmony results back to each Seurat object
+seurat_objects <- Map(function(seu, harmony_result) {
+  seu[["harmony"]] <- harmony_result
+  return(seu)
+}, seurat_objects, harmony_result$corrected)
 
 integrated_data <- RunUMAP(integrated_data, dims = 1:30)
 
