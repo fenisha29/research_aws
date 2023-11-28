@@ -45,7 +45,7 @@ seurat_objects <- lapply(seurat_objects, function(seu) {
   return(seu)
 })
 
-integrated_data <- RunHarmony(object = seu, group.by.vars = 'patient', dims.use = 1:30,
+integrated_data <- RunHarmony(object = seurat_object, group.by.vars = 'sample', dims.use = 1:30,
                   assay.use = 'RNA', plot_convergence = TRUE)
 
 integrated_data <- RunUMAP(integrated_data, dims = 1:30)
