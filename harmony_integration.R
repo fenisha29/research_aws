@@ -53,7 +53,7 @@ pca_list <- lapply(seurat_objects, function(seu) {
 combined_pca <- do.call(cbind, pca_list)
 
 # Run Harmony on the combined PCA matrix
-integrated_data <- RunHarmony(data = combined_pca, meta_data = seurat_objects, vars.use = 'patient', max.iter.harmony = 20)
+integrated_data <- RunHarmony(data = combined_pca, meta_data = seurat_objects, vars.use = 'sample', max_iter = 20)
 
 # Add the Harmony results back to each Seurat object
 seurat_objects <- Map(function(seu, harmony_result) {
@@ -61,10 +61,14 @@ seurat_objects <- Map(function(seu, harmony_result) {
   return(seu)
 }, seurat_objects, harmony_result$corrected)
 
-integrated_data <- RunUMAP(integrated_data, dims = 1:30)
+assay_name <- 'RNA'
+
+# Run UMAP on the integrated data
+integrated_data <- RunUMAP(integrated_data, dims = 1:30, assay = assay_name)
 
 # Plot the UMAP
 pdf("UMAP_after_Harmony.pdf")
+
 DimPlot(integrated_data, label = TRUE, group.by = "celltype_bped_main", raster = TRUE, shuffle = TRUE)
 
 # Use DimPlot with group.by set to 'sample'
