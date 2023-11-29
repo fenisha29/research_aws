@@ -26,10 +26,10 @@ seurat_files <- c(
 )
 
 # Load Seurat objects
-seu <- lapply(seurat_files, function(file_path) {
-  readRDS(file_path)
-})
-
+#seu <- lapply(seurat_files, function(file_path) {
+#  readRDS(file_path)
+#})
+seu <- lapply(seurat_files, readRDS)
 DefaultAssay(seu) <- 'RNA'
 seu <- DietSeurat(seu, assays = 'RNA')
 seu <- NormalizeData(seu) %>%
