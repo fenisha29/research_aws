@@ -26,52 +26,78 @@ seurat_files <- c(
 )
 
 # Load Seurat objects
-seurat_objects <- lapply(seurat_files, function(file_path) {
+seu <- lapply(seurat_files, function(file_path) {
   readRDS(file_path)
 })
 
-# Set the default assay to 'RNA'
-seurat_objects <- lapply(seurat_objects, function(seu) {
-  DefaultAssay(seu) <- 'RNA'
-  return(seu)
-})
+DefaultAssay(seu) <- 'RNA'
+seu <- DietSeurat(seu, assays = 'RNA')
+seu <- NormalizeData(seu) %>%
+  FindVariableFeatures() %>%
+  ScaleData() %>%
+  RunPCA(npcs = 50)
 
-# Run NormalizeData, FindVariableFeatures, and ScaleData on each Seurat object
-seurat_objects <- lapply(seurat_objects, function(seu) {
-  seu <- NormalizeData(seu) %>%
-    FindVariableFeatures() %>%
-    ScaleData() %>%
-    RunPCA(npcs = 50)
-  return(seu)
-})
+seu <- RunHarmony(object = seu, group.by.vars = 'sample', dims.use = 1:30,
+                  assay.use = 'RNA', plot_convergence = TRUE)
+seu <- RunUMAP(seu, reduction = 'harmony', dims = 1:30)
 
-pca_list <- lapply(seurat_objects, function(seu) {
-  return(seu[["pca"]])
-})
+# Assuming you have already run Harmony and UMAP on your Seurat object
+seu <- RunUMAP(seu, reduction = 'harmony', dims = 1:30)
 
-# Combine the PCA results into a single matrix
-combined_pca <- do.call(cbind, pca_list)
-
-# Run Harmony on the combined PCA matrix
-integrated_data <- RunHarmony(data = combined_pca, meta_data = seurat_objects, vars.use = 'sample', max_iter = 20)
-
-# Add the Harmony results back to each Seurat object
-seurat_objects <- Map(function(seu, harmony_result) {
-  seu[["harmony"]] <- harmony_result
-  return(seu)
-}, seurat_objects, harmony_result$corrected)
-
-assay_name <- 'RNA'
-
-# Run UMAP on the integrated data
-integrated_data <- RunUMAP(integrated_data, dims = 1:30, assay = assay_name)
-
-# Plot the UMAP
+# Create a PDF file to save the plots
 pdf("UMAP_after_Harmony.pdf")
 
-DimPlot(integrated_data, label = TRUE, group.by = "celltype_bped_main", raster = TRUE, shuffle = TRUE)
+# Plot UMAP with labels
+DimPlot(seu, group.by = "celltype_bped_main", label = TRUE)
+
+# Add more plots if needed, e.g., by sample
+DimPlot(seu, group.by = "sample", label = TRUE)
+
+# Close the PDF file
+dev.off()
+
+# Set the default assay to 'RNA'
+#seurat_objects <- lapply(seurat_objects, function(seu) {
+#  DefaultAssay(seu) <- 'RNA'
+#  return(seu)
+#})
+
+# Run NormalizeData, FindVariableFeatures, and ScaleData on each Seurat object
+#seurat_objects <- lapply(seurat_objects, function(seu) {
+#  seu <- NormalizeData(seu) %>%
+#    FindVariableFeatures() %>%
+#    ScaleData() %>%
+#    RunPCA(npcs = 50)
+#  return(seu)
+#})
+
+#pca_list <- lapply(seurat_objects, function(seu) {
+#  return(seu[["pca"]])
+#})
+
+# Combine the PCA results into a single matrix
+#combined_pca <- do.call(cbind, pca_list)
+
+# Run Harmony on the combined PCA matrix
+#integrated_data <- RunHarmony(data = combined_pca, meta_data = seurat_objects, vars.use = 'sample', max_iter = 20)
+
+# Add the Harmony results back to each Seurat object
+#seurat_objects <- Map(function(seu, harmony_result) {
+#  seu[["harmony"]] <- harmony_result
+#  return(seu)
+#}, seurat_objects, harmony_result$corrected)
+
+#assay_name <- 'RNA'
+
+# Run UMAP on the integrated data
+#integrated_data <- RunUMAP(integrated_data, dims = 1:30, assay = assay_name)
+
+# Plot the UMAP
+# pdf("UMAP_after_Harmony.pdf")
+
+# DimPlot(integrated_data, label = TRUE, group.by = "celltype_bped_main", raster = TRUE, shuffle = TRUE)
 
 # Use DimPlot with group.by set to 'sample'
-DimPlot(integrated_data, label = TRUE, group.by = "sample", raster = TRUE, shuffle = TRUE)
+# DimPlot(integrated_data, label = TRUE, group.by = "sample", raster = TRUE, shuffle = TRUE)
 
-dev.off()
+#dev.off()
