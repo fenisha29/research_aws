@@ -50,7 +50,11 @@ seu_list <- lapply(seu_list, function(seu) {
 
 # Combine metadata of each Seurat object into a single data frame
 meta_data <- lapply(seu_list, function(seu) {
-  return(seu$meta.data)
+  if ("meta.data" %in% names(seu)) {
+    return(seu$meta.data)
+  } else {
+    return(data.frame())  # Return an empty data frame if meta.data is not present
+  }
 })
 meta_data <- do.call(rbind, meta_data)
 
