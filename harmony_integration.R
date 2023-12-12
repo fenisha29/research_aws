@@ -49,14 +49,14 @@ seu_list <- lapply(seu_list, function(seu) {
 })
 
 # Combine metadata of each Seurat object into a single data frame
-meta_data <- lapply(seu_list, function(seu) {
-  if ("meta.data" %in% names(seu)) {
-    return(seu$meta.data)
-  } else {
-    return(data.frame())  # Return an empty data frame if meta.data is not present
-  }
-})
-meta_data <- do.call(rbind, meta_data)
+#meta_data <- lapply(seu_list, function(seu) {
+#  if ("meta.data" %in% names(seu)) {
+#    return(seu$meta.data)
+#  } else {
+#    return(data.frame())  # Return an empty data frame if meta.data is not present
+#  }
+#})
+#meta_data <- do.call(rbind, meta_data)
 
 # Run Harmony on the list of Seurat objects with the combined metadata
 seu_list <- RunHarmony(object = seu_list, group.by.vars = 'sample', dims.use = 1:30,
