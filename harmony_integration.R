@@ -1,29 +1,58 @@
 library(Seurat)
 library(harmony)
 
-seurat_files <- c(
-  "vol/RU1065C_MET_LI/data_RU1065C_MET_LI_cb_DF.rds",
-  "vol/RU1144_MET_LN/data_RU1144_MET_LN_cb_DF.rds",
-  "vol/RU1181_PRI_LU/data_RU1181_PRI_LU_cb_DF.rds",
-  "vol/RU1293A_MET_LN/data_RU1293A_MET_LN_cb_DF.rds",
-  "vol/RU779D_MET_LI/data_RU779D_MET_LI_cb_DF.rds",
-  "vol/RU1066_PRI_LU/data_RU1066_PRI_LU_cb_DF.rds",
-  "vol/RU1144_REC_LU/data_RU1144_REC_LU_cb_DF.rds",
-  "vol/RU1195A_REC_LU/data_RU1195A_REC_LU_cb_DF.rds",
-  "vol/RU1311_REC_LU/data_RU1311_REC_LU_cb_DF.rds",
-  "vol/RU1080C_MET_KI/data_RU1080C_MET_KI_cb_DF.rds",
-  "vol/RU1145_PRI_LU/data_RU1145_PRI_LU_cb_DF.rds",
-  "vol/RU1215_MET_PL/data_RU1215_MET_PL_cb_DF.rds",
-  "vol/RU1322_MET_LN/data_RU1322_MET_LN_cb_DF.rds",
-  "vol/RU1108a_REC_LU/data_RU1108a_REC_LU_cb_DF.rds",
-  "vol/RU1152_MET_LN/data_RU1152_MET_LN_cb_DF.rds",
-  "vol/RU1229A_PRI_LU/data_RU1229A_PRI_LU_cb_DF.rds",
-  "vol/RU325_MET_PL/data_RU325_MET_PL_cb_DF.rds",
-  "vol/RU1124A_MET_LN/data_RU1124A_MET_LN_cb_DF.rds",
-  "vol/RU1181_MET_LN/data_RU1181_MET_LN_cb_DF.rds",
-  "vol/RU1231A_MET_LN/data_RU1231A_MET_LN_cb_DF.rds",
-  "vol/RU426B_PRI_LU/data_RU426B_PRI_LU_cb_DF.rds"
-)
+
+#seurat_files <- c(
+#  "vol/RU1065C_MET_LI/data_RU1065C_MET_LI_cb_DF.rds",
+#  "vol/RU1144_MET_LN/data_RU1144_MET_LN_cb_DF.rds",
+#  "vol/RU1181_PRI_LU/data_RU1181_PRI_LU_cb_DF.rds",
+#  "vol/RU1293A_MET_LN/data_RU1293A_MET_LN_cb_DF.rds",
+#  "vol/RU779D_MET_LI/data_RU779D_MET_LI_cb_DF.rds",
+#  "vol/RU1066_PRI_LU/data_RU1066_PRI_LU_cb_DF.rds",
+#  "vol/RU1144_REC_LU/data_RU1144_REC_LU_cb_DF.rds",
+#  "vol/RU1195A_REC_LU/data_RU1195A_REC_LU_cb_DF.rds",
+#  "vol/RU1311_REC_LU/data_RU1311_REC_LU_cb_DF.rds",
+#  "vol/RU1080C_MET_KI/data_RU1080C_MET_KI_cb_DF.rds",
+#  "vol/RU1145_PRI_LU/data_RU1145_PRI_LU_cb_DF.rds",
+#  "vol/RU1215_MET_PL/data_RU1215_MET_PL_cb_DF.rds",
+#  "vol/RU1322_MET_LN/data_RU1322_MET_LN_cb_DF.rds",
+#  "vol/RU1108a_REC_LU/data_RU1108a_REC_LU_cb_DF.rds",
+#  "vol/RU1152_MET_LN/data_RU1152_MET_LN_cb_DF.rds",
+#  "vol/RU1229A_PRI_LU/data_RU1229A_PRI_LU_cb_DF.rds",
+#  "vol/RU325_MET_PL/data_RU325_MET_PL_cb_DF.rds",
+#  "vol/RU1124A_MET_LN/data_RU1124A_MET_LN_cb_DF.rds",
+#  "vol/RU1181_MET_LN/data_RU1181_MET_LN_cb_DF.rds",
+#  "vol/RU1231A_MET_LN/data_RU1231A_MET_LN_cb_DF.rds",
+#  "vol/RU426B_PRI_LU/data_RU426B_PRI_LU_cb_DF.rds"
+#)
+
+obj1 <- readRDS("vol/RU1065C_MET_LI/data_RU1065C_MET_LI_cb_DF.rds")
+obj2 <- readRDS("vol/RU1144_MET_LN/data_RU1144_MET_LN_cb_DF.rds")
+obj3 <- readRDS("vol/RU1181_PRI_LU/data_RU1181_PRI_LU_cb_DF.rds")
+obj4 <- readRDS("vol/RU1293A_MET_LN/data_RU1293A_MET_LN_cb_DF.rds")
+obj5 <- readRDS("vol/RU779D_MET_LI/data_RU779D_MET_LI_cb_DF.rds")
+obj6 <- readRDS("vol/RU1066_PRI_LU/data_RU1066_PRI_LU_cb_DF.rds")
+obj7 <- readRDS("vol/RU1144_REC_LU/data_RU1144_REC_LU_cb_DF.rds")
+obj8 <- readRDS("vol/RU1195A_REC_LU/data_RU1195A_REC_LU_cb_DF.rds")
+obj9 <- readRDS("vol/RU1311_REC_LU/data_RU1311_REC_LU_cb_DF.rds")
+obj10 <- readRDS("vol/RU1080C_MET_KI/data_RU1080C_MET_KI_cb_DF.rds")
+obj11 <- readRDS("vol/RU1145_PRI_LU/data_RU1145_PRI_LU_cb_DF.rds")
+obj12 <- readRDS("vol/RU1215_MET_PL/data_RU1215_MET_PL_cb_DF.rds")
+obj13 <- readRDS("vol/RU1322_MET_LN/data_RU1322_MET_LN_cb_DF.rds")
+obj14 <- readRDS("vol/RU1108a_REC_LU/data_RU1108a_REC_LU_cb_DF.rds")
+obj15 <- readRDS("vol/RU1152_MET_LN/data_RU1152_MET_LN_cb_DF.rds")
+obj16 <- readRDS("vol/RU1229A_PRI_LU/data_RU1229A_PRI_LU_cb_DF.rds")
+obj17 <- readRDS("vol/RU325_MET_PL/data_RU325_MET_PL_cb_DF.rds")
+obj18 <- readRDS("vol/RU1124A_MET_LN/data_RU1124A_MET_LN_cb_DF.rds")
+obj19 <- readRDS("vol/RU1181_MET_LN/data_RU1181_MET_LN_cb_DF.rds")
+obj20 <- readRDS("vol/RU1231A_MET_LN/data_RU1231A_MET_LN_cb_DF.rds")
+obj21 <- readRDS("vol/RU426B_PRI_LU/data_RU426B_PRI_LU_cb_DF.rds")
+
+merge_seurat <- merge(obj1, y = c(obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9, obj10,
+                                       obj11, obj12, obj13, obj14, obj15, obj16, obj17, obj18, obj19,
+                                       obj20, obj21), add.cell.ids = c("obj1", "obj2", "obj3", "obj4", "obj5", "obj6", "obj7", 
+                                                 "obj8", "obj9", "obj10", "obj11", "obj12", "obj13", "obj14", 
+                                                 "obj15", "obj16", "obj17", "obj18", "obj19", "obj20", "obj21"), project = "PBMC15K")
 
 # Load Seurat objects
 #seu <- lapply(seurat_files, function(file_path) {
