@@ -60,7 +60,7 @@ seu_list <- lapply(seu_list, function(seu) {
 
 # Run Harmony on the list of Seurat objects with the combined metadata
 seu_list <- RunHarmony(object = seu_list, group.by.vars = 'sample', dims.use = 1:30,
-                        assay.use = 'RNA', plot_convergence = TRUE, meta_data = meta_data)
+                        assay.use = 'RNA', plot_convergence = TRUE)
 
 # Run UMAP on each Seurat object in the list
 seu_list <- lapply(seu_list, function(seu) {
