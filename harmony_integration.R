@@ -59,9 +59,9 @@ merge_seurat <- merge(obj1, y = c(obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9
 #  readRDS(file_path)
 #})
 # Load Seurat objects
-seu_list <- lapply(seurat_files, readRDS)
+#seu_list <- lapply(seurat_files, readRDS)
 
-merged_seurat <- do.call(merge, c(seu_list, merge.vars = "all"))
+#merged_seurat <- do.call(merge, c(seu_list, merge.vars = "all"))
 
 DefaultAssay(merged_seurat) <- 'RNA'
 
