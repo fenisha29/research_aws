@@ -32,53 +32,38 @@ seurat_files <- c(
 # Load Seurat objects
 seu_list <- lapply(seurat_files, readRDS)
 
-# Apply DefaultAssay to each Seurat object in the list
-seu_list <- lapply(seu_list, function(seu) {
-  DefaultAssay(seu) <- 'RNA'
-  return(seu)
-})
+merged_seurat <- do.call(merge, c(seu_list, merge.vars = "all"))
 
-# Run other pre-processing steps on each Seurat object
-seu_list <- lapply(seu_list, function(seu) {
-  seu <- DietSeurat(seu, assays = 'RNA')
-  seu <- NormalizeData(seu) %>%
-    FindVariableFeatures() %>%
-    ScaleData() %>%
-    RunPCA(npcs = 50)
-  return(seu)
-})
+DefaultAssay(merged_seurat) <- 'RNA'
 
-# Combine metadata of each Seurat object into a single data frame
-#meta_data <- lapply(seu_list, function(seu) {
-#  if ("meta.data" %in% names(seu)) {
-#    return(seu$meta.data)
-#  } else {
-#    return(data.frame())  # Return an empty data frame if meta.data is not present
-#  }
-#})
-#meta_data <- do.call(rbind, meta_data)
+# Run other pre-processing steps
+merged_seurat <- DietSeurat(merged_seurat, assays = 'RNA')
+merged_seurat <- NormalizeData(merged_seurat) %>%
+  FindVariableFeatures() %>%
+  ScaleData() %>%
+  RunPCA(npcs = 50)
 
-# Run Harmony on the list of Seurat objects with the combined metadata
-seu_list <- RunHarmony(object = seu_list, group.by.vars = 'sample', dims.use = 1:30,
-                        assay.use = 'RNA', plot_convergence = TRUE)
+# Run Harmony on the Seurat object
+merged_seurat <- RunHarmony(object = merged_seurat, group.by.vars = 'sample', dims.use = 1:30,
+                             assay.use = 'RNA', plot_convergence = TRUE)
 
-# Run UMAP on each Seurat object in the list
-seu_list <- lapply(seu_list, function(seu) {
-  seu <- RunUMAP(seu, reduction = 'harmony', dims = 1:30)
-  return(seu)
-})
+# Run UMAP on the integrated data
+merged_seurat <- RunUMAP(merged_seurat, reduction = 'harmony', dims = 1:30)
 
 # Create a PDF file to save the plots
 pdf("UMAP_after_Harmony.pdf")
 
 # Plot UMAP with labels
-DimPlot(seu_list[[1]], group.by = "celltype_bped_main", label = TRUE)
+DimPlot(merged_seurat, group.by = "celltype_bped_main", label = TRUE)
 
 # Add more plots if needed, e.g., by sample
-DimPlot(seu_list[[1]], group.by = "sample", label = TRUE)
+DimPlot(merged_seurat, group.by = "sample", label = TRUE)
 
 # Close the PDF file
 dev.off()
+
+
+
 
 # Set the default assay to 'RNA'
 #seurat_objects <- lapply(seurat_objects, function(seu) {
