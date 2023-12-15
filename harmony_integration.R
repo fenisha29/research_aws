@@ -1,5 +1,7 @@
 library(Seurat)
 library(harmony)
+library(magrittr)
+library(dplyr)
 
 
 #seurat_files <- c(
