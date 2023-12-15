@@ -63,30 +63,36 @@ merge_seurat <- merge(obj1, y = c(obj2, obj3, obj4, obj5, obj6, obj7, obj8, obj9
 
 #merged_seurat <- do.call(merge, c(seu_list, merge.vars = "all"))
 
-DefaultAssay(merged_seurat) <- 'RNA'
+DefaultAssay(merge_seurat) <- 'RNA'
 
 # Run other pre-processing steps
-merged_seurat <- DietSeurat(merged_seurat, assays = 'RNA')
-merged_seurat <- NormalizeData(merged_seurat) %>%
+merge_seurat <- DietSeurat(merge_seurat, assays = 'RNA')
+merge_seurat <- NormalizeData(merge_seurat) %>%
   FindVariableFeatures() %>%
   ScaleData() %>%
   RunPCA(npcs = 50)
 
 # Run Harmony on the Seurat object
-merged_seurat <- RunHarmony(object = merged_seurat, group.by.vars = 'sample', dims.use = 1:30,
+merge_seurat <- RunHarmony(object = merge_seurat, group.by.vars = 'sample', dims.use = 1:30,
                              assay.use = 'RNA', plot_convergence = TRUE)
 
 # Run UMAP on the integrated data
-merged_seurat <- RunUMAP(merged_seurat, reduction = 'harmony', dims = 1:30)
+merge_seurat <- RunUMAP(merge_seurat, reduction = 'harmony', dims = 1:30)
 
 # Create a PDF file to save the plots
-pdf("UMAP_after_Harmony.pdf")
+pdf("UMAP_after_Harmony_1.pdf")
 
 # Plot UMAP with labels
-DimPlot(merged_seurat, group.by = "celltype_bped_main", label = TRUE)
+DimPlot(merge_seurat, group.by = "celltype_bped_main", label = TRUE)
 
 # Add more plots if needed, e.g., by sample
-DimPlot(merged_seurat, group.by = "sample", label = TRUE)
+#DimPlot(merge_seurat, group.by = "sample", label = TRUE)
+
+DimPlot(merge_seurat, group.by = "celltype_bped_fine", label = TRUE)
+
+DimPlot(merge_seurat, group.by = "celltype_iced_main", label = TRUE)
+
+DimPlot(merge_seurat, group.by = "celltype_iced_fine", label = TRUE)
 
 # Close the PDF file
 dev.off()
